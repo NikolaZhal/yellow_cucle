@@ -2,13 +2,25 @@ import sys
 
 from PyQt5.QtCore import QRectF
 from PyQt5.QtGui import QColor, QPainter
-from PyQt5.QtWidgets import QApplication, QPushButton, QLineEdit, QLabel, QWidget
+from PyQt5.QtWidgets import (
+    QApplication,
+    QPushButton,
+    QLineEdit,
+    QLabel,
+    QWidget,
+    QMainWindow,
+)
+from PyQt5 import uic  # Импортируем uic
+
+import sys
 
 
 class Square1(QWidget):
     def __init__(self):
         super().__init__()
-        self.initUI()
+        uic.loadUi("UI.ui", self)  # Загружаем дизайн
+        self.draw.clicked.connect(self.paint)
+        self.do_paint = False
         self.color = QColor(255, 0, 0)
 
     def initUI(self):
@@ -43,7 +55,6 @@ class Square1(QWidget):
         self.lineEdit_3 = QLineEdit(self)
         self.lineEdit_3.setText("10")
         self.lineEdit_3.move(370, 80)
-        self.do_paint = False
 
     def paintEvent(self, event):
         if self.do_paint:
@@ -57,11 +68,7 @@ class Square1(QWidget):
         self.repaint()
 
     def draw_flag(self, qp):
-        side, coeff, n = (
-            int(self.lineEdit.text()),
-            float(self.lineEdit_2.text()),
-            int(self.lineEdit_3.text()),
-        )
+        side, coeff, n = 100, 50, 5
         qp.setPen(self.color)
         for i in range(n):
             qp.drawRect(
