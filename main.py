@@ -18,10 +18,18 @@ import sys
 class Square1(QWidget):
     def __init__(self):
         super().__init__()
-        uic.loadUi("UI.ui", self)  # Загружаем дизайн
+        self.initUI()
         self.draw.clicked.connect(self.paint)
         self.do_paint = False
-        self.color = QColor(255, 255, 0)
+
+    def initUI(self):
+        self.setGeometry(300, 300, 500, 500)
+        self.setWindowTitle("Кружочки")
+
+        self.draw = QPushButton("Draw", self)
+        self.draw.resize(self.draw.sizeHint())
+        self.draw.move(30, 30)
+        self.draw.clicked.connect(self.paint)
 
     def paintEvent(self, event):
         if self.do_paint:
@@ -36,8 +44,9 @@ class Square1(QWidget):
 
     def draw_flag(self, qp):
         n = randint(2, 8)
-        qp.setPen(QPen(self.color, 8))
         for i in range(n):
+            color = QColor(randint(0, 255), randint(0, 255), randint(0, 255))
+            qp.setPen(QPen(color, 8))
             diametr = randint(8, 300)
             x, y = randint(75, 500 - diametr), randint(75, 500 - diametr)
             qp.drawEllipse(x, y, diametr, diametr)
